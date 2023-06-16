@@ -19,7 +19,8 @@ Install  and configure jenkins on ubuntu 22.04 server (Ec2 instance)
 Open port 22 for ssh connections to the  jenkins instance
 open port 8080 to be able to connect to jenkins dashboard
 
-## jenkins plugins needed
-cloudbees aws credentaisl plugins
-
 ## project workflow
+
+
+
+
