@@ -1,33 +1,34 @@
-pipeline{
+ipeline{
     agent any
-    environment {
+    stages{
+        stage('Build image'){
+            steps{
+                sh 'printenv'
+               
+               
 
-        registry = "aws ecr get-login-password --region eu-west-2.759623136685.dkr.ecr.eu-west-2.amazonaws.com/ecr-repoimg1"
-        dockerImage = ''
-        }
-      
-      
-        stages {
 
-            stage('Create Docker image') {
-                steps {
-                    script {
-                       dockerImage = docker build - t ecr-repoimg . + ":$BUILD_NUMBER"
-                  }
-              }
-          }
-          
-          stage('Push Docker image to Docker Registry') {
-            steps {
-                script {
-                    docker.withRegistry( "https://" + registry, "ecr:AWS_DEFAULT_REGION:AWS_ACCESS_KEY_ID") {
-                    dockerImage.push()
-                      }
-                  }
-              }
-          }
-          
-      
+            }
+        
+         }
+        stage('push image to ECR'){
+            steps{
+                withEnv (["AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}", "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}", "AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"]) {
+                    
+                    sh 'docker login -u aws -p $(aws ecr get-login-password --region eu-west-2) 759623136685.dkr.ecr.eu-west-2.amazonaws.com'
+                    sh 'docker build -t ecr-repoimg .'
+                    sh 'docker tag ecr-repoimg1:latest 759623136685.dkr.ecr.eu-west-2.amazonaws.com/ecr-repoimg1:""$BUILD_ID""'
+                    sh 'docker push 759623136685.dkr.ecr.eu-west-2.amazonaws.com/ecr-repoimg1:""$BUILD_ID""'
+
+                   
+                }
+
+
+
+             
+
+
+            }
         }
-       
     }
+}
