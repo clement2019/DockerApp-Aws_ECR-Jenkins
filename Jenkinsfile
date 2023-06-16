@@ -12,7 +12,7 @@ pipeline{
             stage('Create Docker image') {
                 steps {
                     script {
-                        sh ' docker build -t ecr-repoimg . + ":$BUILD_NUMBER"'
+                       dockerImage = docker build - t ecr-repoimg . + ":$BUILD_NUMBER"
                   }
               }
           }
