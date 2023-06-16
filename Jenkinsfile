@@ -23,8 +23,7 @@ pipeline{
                 }
 
 
-aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 759623136685.dkr.ecr.eu-west-2.amazonaws.com
-docker tag ecr-repoimg1:latest 759623136685.dkr.ecr.eu-west-2.amazonaws.com/ecr-repoimg1:latest
+
              
 
 
