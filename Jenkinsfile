@@ -1,11 +1,34 @@
-stage('Login ECR image') {
+pipeline {
+        
+        environment {
+          registry = "aws ecr get-login-password --region eu-west-2.759623136685.dkr.ecr.eu-west-2.amazonaws.com/ecr-repoimg1"
+          dockerImage = ''
+        }
+      
+      
+        stages {
+          
+          stage('Create Docker image') {
               
               steps {
                   
                   script {
-                      sh "aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin A759623136685.dkr.ecr.eu-west-2.amazonaws.com"
-                      sh "docker build -t ecr-repoimg1 ."
-                      sh "docker push 759623136685.dkr.ecr.eu-west-2.amazonaws.com/ecr-repoimg1:latest"
+                      dockerImage = docker.build registry + "":$BUILD_ID""
                   }
               }
           }
+          
+          stage('Push Docker image to Docker Registry') {
+              steps {
+                  script {
+                      docker.withRegistry( "https://" + registry, "ecr:AWS_DEFAULT_REGION:AWS_ACCESS_KEY_ID") {
+                      dockerImage.push()
+                      }
+                  }
+              }
+          }
+          
+      
+        }
+       
+    }
