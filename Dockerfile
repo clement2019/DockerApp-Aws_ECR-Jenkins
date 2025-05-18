@@ -4,4 +4,4 @@ WORKDIR /app/
 ADD . /app/
 RUN pip install -r requirements.txt
 RUN pip install --upgrade pip
-CMD ["python","/app/main.py"]
+CMD ["python","main.py"]

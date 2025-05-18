@@ -4,10 +4,6 @@ pipeline{
         stage('Build image'){
             steps{
                 sh 'printenv'
-               
-               
-
-
             }
         
          }
